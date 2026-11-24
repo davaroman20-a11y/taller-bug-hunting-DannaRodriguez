@@ -19,8 +19,11 @@ async def crear_mecanico(mecanico: MecanicoCreate, db: AsyncSession = Depends(ob
 
 @router.get("/", response_model=List[MecanicoResponse])
 async def listar_mecanicos(db: AsyncSession = Depends(obtener_bd)):
-    resultado = await db.execute(select(MecanicoModel))
+    resultado = await db.execute(
+        select(MecanicoModel).where(MecanicoModel.activo == True)
+    )
     return resultado.scalars().all()
+
 
 @router.delete("/{mecanico_id}", status_code=204)
 async def desactivar_mecanico(mecanico_id: int, db: AsyncSession = Depends(obtener_bd)):
