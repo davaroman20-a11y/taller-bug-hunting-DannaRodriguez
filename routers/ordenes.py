@@ -66,11 +66,19 @@ async def actualizar_orden(orden_id: int, orden_patch: OrdenPatch, db: AsyncSess
 
 @router.delete("/{orden_id}", status_code=204)
 async def eliminar_orden(orden_id: int, db: AsyncSession = Depends(obtener_bd)):
-    resultado = await db.execute(select(OrdenModel).where(OrdenModel.id == orden_id))
-    orden_db = resultado.scalar_one_or_none()
-    if not orden_db:
-        raise HTTPException(status_code=404, detail="Orden no encontrada")
+    resultado = await db.execute(
+        select(OrdenModel).where(OrdenModel.id == orden_id)
+    )
 
-    db.delete(orden_db)
+    orden_db = resultado.scalar_one_or_none()
+
+    if not orden_db:
+        raise HTTPException(
+            status_code=404,
+            detail="Orden no encontrada"
+        )
+
+    await db.delete(orden_db)
     await db.commit()
+
     return None
