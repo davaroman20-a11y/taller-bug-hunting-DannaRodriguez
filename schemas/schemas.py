@@ -27,3 +27,5 @@ class OrdenResponse(OrdenCreate):
     estado: str
     costo_reparacion: float
     mecanico: Optional[MecanicoResponse] = None
+
+    model_config = {"from_attributes": True}
