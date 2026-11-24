@@ -5,6 +5,7 @@ from core.config import settings
 
 from models.orden import Orden
 from models.mecanico import Mecanico
+from models.repuesto import Repuesto
 
 from routers import ordenes, mecanicos
 
