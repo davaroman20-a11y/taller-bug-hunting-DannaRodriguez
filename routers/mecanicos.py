@@ -29,8 +29,12 @@ async def listar_mecanicos(db: AsyncSession = Depends(obtener_bd)):
 async def desactivar_mecanico(mecanico_id: int, db: AsyncSession = Depends(obtener_bd)):
     resultado = await db.execute(select(MecanicoModel).where(MecanicoModel.id == mecanico_id))
     mecanico = resultado.scalar_one_or_none()
+
     if not mecanico:
         raise HTTPException(status_code=404, detail="Mecánico no encontrado")
 
     mecanico.activo = False
+
+    await db.commit()
+
     return None
