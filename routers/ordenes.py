@@ -14,7 +14,8 @@ router = APIRouter(prefix="/ordenes", tags=["Órdenes"])
 async def obtener_ordenes(db: AsyncSession = Depends(obtener_bd)):
     resultado = await db.execute(select(OrdenModel))
     ordenes = resultado.scalars().all()
-    return {"total": len(ordenes), "ordenes": ordenes}
+
+    return ordenes
 
 @router.post("/", status_code=201, response_model=OrdenResponse)
 async def crear_orden(orden: OrdenCreate, db: AsyncSession = Depends(obtener_bd)):
