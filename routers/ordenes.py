@@ -56,7 +56,7 @@ async def actualizar_orden(orden_id: int, orden_patch: OrdenPatch, db: AsyncSess
     if not orden_db:
         raise HTTPException(status_code=404, detail="Orden no encontrada")
 
-    datos = orden_patch.model_dump()
+    datos = orden_patch.model_dump(exclude_unset=True)
     for campo, valor in datos.items():
         setattr(orden_db, campo, valor)
 
